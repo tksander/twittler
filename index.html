@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Twittler</title>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <h1>Twittler</h1>
+    <div class="global-nav-inner">
+      <h1>Twittler</h1>
+
+       <nav>
+        <a href="/Users/tommysander/Programming/Hack Reactor/2015-08-twittler/index.html">Profile</a>
+      </nav>
+    </div>
+
+     
+
       <button class="button"> Refresh </button>
 
     <script>
@@ -19,28 +30,32 @@
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div class="tweet"></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + '  Time: ' + tweet.created_at);
+          $tweet.html('@' + '<a href="users/'+ tweet.user + '.html">' + tweet.user + "</a>" + ': ' + tweet.message + '  Time: ' + tweet.created_at);
           $tweet.appendTo($body);
-          $("<a href='users/" + tweet.user + ".html'>" + tweet.user + "</a>").appendTo($body);
           index -= 1;
         }
  
-        // append new tweet to bottom of page
-       // var $button = $('<button></button>');
-        //$button.text("Refresh");
-        //$button.appendTo($body);
-
-        // maybe include a refresh button
+        // Generate tweet on refresh
         $('button').on('click', function(event) {
           // generates random tweet to streams.home
           generateRandomTweet();
           var tweet = streams.home[streams.home.length - 1];
           var $tweet = $('<div class="tweet"></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + '  Time: ' + tweet.created_at);
+           $tweet.html('@' + '<a href="users/'+ tweet.user + '.html">' + tweet.user + "</a>" + ': ' + tweet.message + '  Time: ' + tweet.created_at);
           $tweet.appendTo($body);
           // remove the last tweet in the script section
           $('div').first().remove();
         })
+
+        // Automatically generate tweet
+
+        // Show tweets in boxes
+
+        // Highlight tweets when you hover
+
+        // Dont underline user names, Highlight and underline when over
+
+        //
 
 
       });
