@@ -1,51 +1,103 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <title>Twittler</title>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <link rel="stylesheet" href="main.css">
+    <script src="moment.js"></script>
   </head>
+
   <body>
-    <div class="global-nav-inner">
-      <h1>Twittler</h1>
+    <div class="global-nav" class="container">
+
+      <div class="container">
+        <h1>Twittler</h1>
+      </div>
 
        <nav>
         <a href="/Users/tommysander/Programming/Hack Reactor/2015-08-twittler/index.html">Profile</a>
       </nav>
+
+      <button class="refresh-button"> Refresh </button>
+
     </div>
 
-     
 
-      <button class="button"> Refresh </button>
+    <div class="container">
+        <textarea name="tweet">What's Happening?</textarea>
+        <button class="btn tweet-action" type="button">
+          <span class="button-text tweeting-text">
+            Tweet
+          </span>
+        </button>
+    </div>
 
+
+    <div class="conversation-container container">      
+      <div class="tweet-container container">
+      </div>
+    </div>
+        
     <script>
 
+    // define own user name
+    var visitor = 'tommysander';
+
       $(document).ready(function(){
+        var $tweetContainer = $('.tweet-container');
         var $body = $('body');
         //$body.html(''); // Why is this line here?
 
         // populates page with 10 tweets
         var index = streams.home.length - 1;
         while(index >= 0){
+
           var tweet = streams.home[index];
-          var $tweet = $('<div class="tweet"></div>');
-          $tweet.html('@' + '<a href="users/'+ tweet.user + '.html">' + tweet.user + "</a>" + ': ' + tweet.message + '  Time: ' + tweet.created_at);
-          $tweet.appendTo($body);
+          var $tweet = $('<div class="tweet-header"></div>');
+          $tweet.html('<a href="users/'+ tweet.user + '.html">' + tweet.user + " </a>" 
+                      + '<span class="username">@' + tweet.user + ' &middot; </span>'
+                      + '<span class="timestamp"> ' + moment().fromNow(tweet.created_at)  + ' ago</span>'
+                      + '<p class="tweet">' + tweet.message + '</p>');
+          $tweet.appendTo($tweetContainer);
           index -= 1;
         }
  
+        
         // Generate tweet on refresh
-        $('button').on('click', function(event) {
+        $('.refresh-button').on('click', function(event) {
           // generates random tweet to streams.home
           generateRandomTweet();
           var tweet = streams.home[streams.home.length - 1];
-          var $tweet = $('<div class="tweet"></div>');
-           $tweet.html('@' + '<a href="users/'+ tweet.user + '.html">' + tweet.user + "</a>" + ': ' + tweet.message + '  Time: ' + tweet.created_at);
-          $tweet.appendTo($body);
+          var $tweet = $('<div class="tweet-header"></div>');
+          $tweet.html('<a href="users/'+ tweet.user + '.html">' + tweet.user + " </a>" 
+                      + '<span class="username">@' + tweet.user + ' &middot; </span>'
+                      + '<span class="timestamp">'  + moment().fromNow(tweet.created_at)  + ' ago</span>'
+                      + '<p class="tweet">' + tweet.message + '</p>');
+          $tweet.prependTo($tweetContainer);
           // remove the last tweet in the script section
-          $('div').first().remove();
+          $('.tweet-header').last().remove();
         })
+
+
+
+        // Tweet from textbox
+        $('.btn').on('click', function(event) {
+          var text = $('textarea').val();
+          writeTweet(text);
+
+          var tweet = streams.users.tommysander[streams.users.tommysander.length - 1];
+
+          var $tweet = $('<div class="tweet-header"></div>');
+          $tweet.html('<a href="index.html">' + tweet.user + " </a>" 
+                      + '<span class="username">@' + tweet.user + ' &middot; </span>'
+                      + '<span class="timestamp">'  + moment().fromNow(tweet.created_at)  + ' ago</span>'
+                      + '<p class="tweet">' + tweet.message + '</p>');
+          $tweet.prependTo($tweetContainer);
+          // remove the last tweet in the script section
+          $('.tweet-header').last().remove();
+        });
 
         // Automatically generate tweet
 
@@ -55,7 +107,9 @@
 
         // Dont underline user names, Highlight and underline when over
 
-        //
+        // implement moment.js with node?
+
+        // implement 'View X New Tweet'
 
 
       });
