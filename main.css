@@ -78,6 +78,10 @@ table {
     background-color: #fff;
 }
 
+.headline.container {
+    ADD CENTER
+}
+
 div.tweet-header {
     background-color: #fff;
     border: 1px solid #e1e8ed;
@@ -114,7 +118,7 @@ textarea {
 }
 
 nav {
-    text-align: right;
+    ADD CENTER
 }
 
 a {
