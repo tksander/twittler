@@ -5,19 +5,32 @@
     <script src="../jquery.js"></script>
     <script src="../data_generator.js"></script>
     <link rel="stylesheet" href="../main.css">
+    <script src="../moment.js"></script>
   </head>
   <body>
-    <h1>Twittler</h1>
+      <div class="global-nav container">
 
-      <nav>
-        <a href="/Users/tommysander/Programming/Hack Reactor/2015-08-twittler/index.html">Profile</a>
-      </nav>
+        <div class="headline container">
+          <h1>Twittler</h1>
+        </div>
 
-      <button class="button"> Refresh </button>
+        <nav>
+          <a class="nav-profile" href="/Users/tommysander/Programming/Hack Reactor/2015-08-twittler/index.html">Profile</a>
+        </nav>
+
+
+    </div>
+
+
+    <div class="conversation-container container">      
+      <div class="tweet-container container">
+      </div>
+    </div>
 
     <script>
 
       $(document).ready(function(){
+        var $tweetContainer = $('.tweet-container');
         var $body = $('body');
         //$body.html(''); // Why is this line here?
 
@@ -26,8 +39,12 @@
         while(index >= 0){
           var tweet = streams.users.sharksforcheap[index];
           var $tweet = $('<div class="tweet"></div>');
-          $tweet.html('@' + '<a href="users/'+ tweet.user + '.html">' + tweet.user + "</a>" + ': ' + tweet.message + '  Time: ' + tweet.created_at);
-          $tweet.appendTo($body);
+          var $tweet = $('<div class="tweet-header"></div>');
+          $tweet.html('<a href="users/'+ tweet.user + '.html">' + tweet.user + " </a>" 
+                      + '<span class="username">@' + tweet.user + ' &middot; </span>'
+                      + '<span class="timestamp">'  + moment().fromNow(tweet.created_at)  + ' ago</span>'
+                      + '<p class="tweet">' + tweet.message + '</p>');
+          $tweet.prependTo($tweetContainer);
           index -= 1;
         }
 
